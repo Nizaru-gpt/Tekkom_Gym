@@ -2,9 +2,6 @@
 
 Website resmi **TEKKOM GYM** — pusat kebugaran terbaik yang mendukung perjalanan transformasi tubuh Anda, dari nol hingga luar biasa.
 
-## 🌐 Live Preview
-
----
 
 ## 📌 Fitur Utama
 
