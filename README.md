@@ -4,9 +4,6 @@ Website resmi **TEKKOM GYM** — pusat kebugaran terbaik yang mendukung perjalan
 
 ## 🌐 Live Preview
 
-[🔗 Lihat Demo](#)  
-*(Ganti `#` dengan URL GitHub Pages jika sudah dihosting)*
-
 ---
 
 ## 📌 Fitur Utama
