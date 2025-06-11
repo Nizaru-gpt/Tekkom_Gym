@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEKKOM GYM - Transform Your Body</title>
+    <meta name="description"
+        content="TEKKOM GYM - Pusat fitness terbaik dengan program Mind & Body, Cardio Class, dan Baby Buncit. Bergabunglah sekarang!">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e293b',
+                        'primary-light': '#334155',
+                        'primary-extra-light': '#64748b',
+                        secondary: '#f59e0b',
+                        'text-light': '#f1f5f9'
+                    }
+
+
+                }
+            }
+        }
+    </script>
+    <script>
+        // Enhanced TEKKOM GYM JavaScript - Optimized Version
+        let isInitialized = false;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!isInitialized) {
+                initializeAllEffects();
+                isInitialized = true;
+            }
+        });
+
+        function initializeAllEffects() {
+            try {
+                setupNavbarEffects();
+                setupScrollAnimations();
+                setupParallaxEffects();
+                setupCounterAnimations();
+                setupHoverEffects();
+                setupTextAnimations();
+                setupMobileMenu();
+                setupSmoothScroll();
+                showLoadingAnimation();
+            } catch (error) {
+                console.error('Error initializing effects:', error);
+            }
+        }
+
+        // Optimized Navbar Effects
+        function setupNavbarEffects() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            function updateNavbar() {
+                const currentScrollY = window.scrollY;
+
+                if (currentScrollY > 50) {
+                    navbar.style.background = 'rgba(27, 38, 59, 0.95)';
+                    navbar.style.backdropFilter = 'blur(20px)';
+                    navbar.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                } else {
+                    navbar.style.background = 'rgba(27, 38, 59, 0.25)';
+                    navbar.style.backdropFilter = 'blur(15px)';
+                    navbar.style.boxShadow = 'none';
+                }
+
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    navbar.style.transform = 'translateY(-100%)';
+                } else {
+                    navbar.style.transform = 'translateY(0)';
+                }
+
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateNavbar);
+                    ticking = true;
+                }
+            });
+        }
+
+        // Improved Scroll Animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+
+                        // Stagger child animations
+                        const children = entry.target.querySelectorAll('.stagger-child');
+                        children.forEach((child, index) => {
+                            setTimeout(() => {
+                                child.classList.add('animate-in');
+                            }, index * 150);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Lightweight Parallax
+        function setupParallaxEffects() {
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            let ticking = false;
+
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+
+                parallaxElements.forEach((element, index) => {
+                    const speed = 0.2 + (index * 0.1);
+                    const yPos = -(scrolled * speed);
+                    element.style.transform = `translateY(${yPos}px)`;
+                });
+
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking && parallaxElements.length > 0) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            });
+        }
+
+        // Counter Animations
+        function setupCounterAnimations() {
+            const counters = document.querySelectorAll('.counter');
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        counterObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+        }
+
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.target || element.textContent);
+            const suffix = element.dataset.suffix || '';
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                element.textContent = Math.floor(current) + suffix;
+
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        // Optimized Hover Effects
+        function setupHoverEffects() {
+            const cards = document.querySelectorAll('.card-hover');
+            const buttons = document.querySelectorAll('.btn-hover');
+
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'scale(1.05)';
+                });
+
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // Simplified Text Animations
+        function setupTextAnimations() {
+            const textElements = document.querySelectorAll('.text-animate');
+
+            const textObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('text-visible');
+                        textObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            textElements.forEach(element => {
+                textObserver.observe(element);
+            });
+        }
+
+        // Mobile Menu
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+
+        // Smooth Scrolling
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Loading Animation
+        function showLoadingAnimation() {
+            const loader = document.createElement('div');
+            loader.className = 'fixed inset-0 bg-primary z-50 flex items-center justify-center transition-opacity duration-500';
+            loader.innerHTML = `
+                <div class="text-center">
+                    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-secondary mb-4"></div>
+                    <div class="text-gradient text-2xl font-bold">TEKKOM GYM</div>
+                </div>
+            `;
+            document.body.appendChild(loader);
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+            }, 1500);
+        }
+
+        // Optimized CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-in {
+                opacity: 1 !important;
+                transform: translateY(0) scale(1) !important;
+            }
+            
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .card-hover {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .btn-hover {
+                transition: all 0.3s ease;
+            }
+            
+            .text-animate {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 0.6s ease;
+            }
+            
+            .text-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .text-gradient {
+                background: linear-gradient(135deg, #778da9 0%, #e0e1dd 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            .glass-effect {
+    background: rgba(30, 41, 59, 0.3);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+            
+            .parallax-element {
+                will-change: transform;
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+            }
+            
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .bg-gradient-secondary {
+            background: linear-gradient(135deg, #f59e0b 0%, #fef3c7 100%);
+        }
+
+        .bg-gradient-secondary {
+            background: linear-gradient(135deg, #f59e0b 0%, #fef3c7 100%);
+        }
+
+        .hero-pattern {
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(119, 141, 169, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(119, 141, 169, 0.2) 0%, transparent 50%);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .hero-pattern {
+                background-image: none;
+            }
+
+            .parallax-element {
+                transform: none !important;
+            }
+        }
+
+        footer {
+            font-size: 0.85rem;
+            /* Ukuran teks lebih kecil */
+            padding-top: 2rem;
+            padding-bottom: 1.5rem;
+        }
+
+        footer h3 {
+            font-size: 1rem;
+            /* Judul section lebih kecil */
+            margin-bottom: 0.5rem;
+        }
+
+        footer p,
+        footer li {
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        footer .footer-bottom {
+            font-size: 0.75rem;
+            padding-top: 1rem;
+            text-align: center;
+        }
+    </style>
+
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 animate-on-scroll">
+                    <div class="text-2xl font-bold text-gradient">TEKKOM GYM</div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-secondary transition-colors duration-300 relative group">
+                            Home
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#programs" class="hover:text-secondary transition-colors duration-300 relative group">
+                            Program
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#services" class="hover:text-secondary transition-colors duration-300 relative group">
+                            Service
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#about" class="hover:text-secondary transition-colors duration-300 relative group">
+                            About
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="#community" class="hover:text-secondary transition-colors duration-300 relative group">
+                            Community
+                            <span
+                                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button
+                        class="bg-gradient-secondary text-primary px-6 py-2 rounded-full font-medium btn-hover shadow-lg">
+                        Join Now
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-secondary transition-colors">
+                        <i class="ri-menu-line text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-primary-light border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 hover:text-secondary transition-colors">Home</a>
+                <a href="#programs" class="block px-3 py-2 hover:text-secondary transition-colors">Program</a>
+                <a href="#services" class="block px-3 py-2 hover:text-secondary transition-colors">Service</a>
+                <a href="#about" class="block px-3 py-2 hover:text-secondary transition-colors">About</a>
+                <a href="#community" class="block px-3 py-2 hover:text-secondary transition-colors">Community</a>
+                <button class="w-full mt-2 bg-gradient-secondary text-primary px-4 py-2 rounded-full font-medium">
+                    Join Now
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center hero-pattern">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div
+                class="absolute top-20 left-10 w-72 h-72 bg-secondary opacity-20 rounded-full blur-3xl parallax-element">
+            </div>
+            <div
+                class="absolute bottom-20 right-10 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl parallax-element">
+            </div>
+        </div>
+
+        <!-- Background Text -->
+        <div class="absolute inset-0 flex items-center justify-end pr-20">
+            <div class="text-9xl font-black text-white opacity-5 select-none">T-GYM</div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="space-y-8 animate-on-scroll">
+                    <div class="space-y-4">
+                        <h4 class="text-secondary font-semibold text-lg tracking-wide uppercase text-animate">
+                            LUFFY BELAJAR GERIGI 5 DISINI
+                        </h4>
+                        <h1 class="text-5xl lg:text-7xl font-black leading-tight text-animate">
+                            <span class="text-gradient">BUAT</span>
+                            <br>
+                            <span class="text-white">GALAUMU JADI</span>
+                            <br>
+                            <span class="text-gradient">MASA OTOT</span>
+                        </h1>
+                        <p class="text-text-light text-lg leading-relaxed max-w-lg text-animate">
+                            Unleash your potential and embark on a journey towards a stronger,
+                            fitter, and more confident you. Sign up for 'Make Your Body Shape' now
+                            and witness the incredible transformation your body is capable of!
+                        </p>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 animate-on-scroll">
+                        <button
+                            class="bg-gradient-secondary text-primary px-8 py-4 rounded-full font-bold text-lg btn-hover shadow-lg">
+                            Get Started
+                        </button>
+                        <button
+                            class="border-2 border-secondary text-secondary px-8 py-4 rounded-full font-bold text-lg hover:bg-secondary hover:text-primary transition-all duration-300">
+                            Watch Demo
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex gap-8 pt-8 animate-on-scroll">
+                        <div class="text-center stagger-child">
+                            <div class="text-3xl font-bold text-secondary counter" data-target="500" data-suffix="+">0+
+                            </div>
+                            <div class="text-text-light">Happy Members</div>
+                        </div>
+                        <div class="text-center stagger-child">
+                            <div class="text-3xl font-bold text-secondary counter" data-target="15" data-suffix="+">0+
+                            </div>
+                            <div class="text-text-light">Expert Trainers</div>
+                        </div>
+                        <div class="text-center stagger-child">
+                            <div class="text-3xl font-bold text-secondary">24/7</div>
+                            <div class="text-text-light">Access</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image -->
+                <div class="relative flex justify-center lg:justify-end animate-float">
+                    <div class="relative">
+                        <!-- Decorative Circle -->
+                        <div
+                            class="absolute inset-0 w-96 h-96 rounded-full bg-gradient-to-r from-secondary to-transparent opacity-20 blur-2xl">
+                        </div>
+
+                        <!-- Placeholder for gym image -->
+                        <div
+                            class="relative w-80 h-96 bg-gradient-to-br from-primary-light to-primary-extra-light rounded-3xl shadow-2xl flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="ri-heart-pulse-fill text-8xl text-secondary mb-4"></i>
+                                <p class="text-lg font-medium">Your Transformation</p>
+                                <p class="text-sm text-text-light">Starts Here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="py-20 bg-primary-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-4 text-animate">PROGRAM KAMI</h2>
+                <p class="text-text-light text-lg max-w-2xl mx-auto text-animate">
+                    Pilih program yang sesuai dengan tujuan fitness Anda dan mulai perjalanan transformasi tubuh Anda
+                    hari ini.
+                </p>
+            </div>
+
+            <!-- Programs Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Mind & Body Class -->
+                <div class="glass-effect rounded-2xl p-8 card-hover animate-on-scroll group">
+                    <div
+                        class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="ri-boxing-fill text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 group-hover:text-secondary transition-colors duration-300">
+                        Mind & Body Class
+                    </h4>
+                    <p class="text-text-light mb-6 leading-relaxed">
+                        Memenuhi ruangan dengan semangat! Selain mampu memperbaiki fungsi tubuh dan membakar kalori,
+                        kelas MIND & BODY juga bermanfaat memperbaiki denyut jantung, tekanan darah, dan pernapasan.
+                    </p>
+                    <a href="#"
+                        class="inline-flex items-center text-secondary font-semibold hover:text-white transition-colors duration-300">
+                        Join Sekarang
+                        <i
+                            class="ri-arrow-right-line ml-2 transition-transform duration-300 group-hover:translate-x-2"></i>
+                    </a>
+                </div>
+
+                <!-- Cardio Class -->
+                <div class="glass-effect rounded-2xl p-8 card-hover animate-on-scroll group">
+                    <div
+                        class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="ri-heart-pulse-fill text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 group-hover:text-secondary transition-colors duration-300">
+                        Cardio Class
+                    </h4>
+                    <p class="text-text-light mb-6 leading-relaxed">
+                        Memenuhi ruangan dengan semangat! Selain mampu memperbaiki fungsi tubuh dan membakar kalori,
+                        kelas CARDIO juga bermanfaat memperbaiki denyut jantung, tekanan darah, dan pernapasan.
+                    </p>
+                    <a href="#"
+                        class="inline-flex items-center text-secondary font-semibold hover:text-white transition-colors duration-300">
+                        Join Sekarang
+                        <i
+                            class="ri-arrow-right-line ml-2 transition-transform duration-300 group-hover:translate-x-2"></i>
+                    </a>
+                </div>
+
+                <!-- Baby Buncit -->
+                <div class="glass-effect rounded-2xl p-8 card-hover animate-on-scroll group">
+                    <div
+                        class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="ri-run-line text-2xl text-primary"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-4 group-hover:text-secondary transition-colors duration-300">
+                        Baby Buncit
+                    </h4>
+                    <p class="text-text-light mb-6 leading-relaxed">
+                        Program ini adalah salah satu program Unggulan kita, nikmati hidupmu dengan sehat dan bugar,
+                        tanpa adanya halangan! Fokus pada pembentukan core dan stamina.
+                    </p>
+                    <a href="#"
+                        class="inline-flex items-center text-secondary font-semibold hover:text-white transition-colors duration-300">
+                        Join Sekarang
+                        <i
+                            class="ri-arrow-right-line ml-2 transition-transform duration-300 group-hover:translate-x-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section -->
+    <section id="services" class="py-20 bg-gradient-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Images -->
+                <div class="relative animate-on-scroll">
+                    <div class="relative">
+                        <!-- Main Image Placeholder -->
+                        <div
+                            class="w-full h-96 bg-gradient-to-br from-primary-extra-light to-secondary rounded-3xl shadow-2xl flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="ri-dumbbell-fill text-6xl text-white mb-4"></i>
+                                <p class="text-xl font-bold">Premium Equipment</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Card -->
+                        <div
+                            class="absolute -bottom-8 -right-8 w-64 h-48 glass-effect rounded-2xl p-6 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="ri-trophy-fill text-4xl text-secondary mb-2"></i>
+                                <p class="font-bold">Award Winning</p>
+                                <p class="text-sm text-text-light">Gym Facilities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Content -->
+                <div class="space-y-8 animate-on-scroll">
+                    <div>
+                        <h2 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight text-animate">
+                            KELASMU AKAN<br>
+                            <span class="text-gradient">TERSEDIA DISINI</span>
+                        </h2>
+                        <p class="text-text-light text-lg leading-relaxed mb-8 text-animate">
+                            Bergabunglah dengan komunitas fitness terbaik di kota. Kami menyediakan fasilitas lengkap,
+                            pelatih berpengalaman, dan lingkungan yang mendukung untuk mencapai tujuan fitness Anda.
+                            Dari pemula hingga atlet professional, semua level welcome!
+                        </p>
+                    </div>
+
+                    <!-- Features List -->
+                    <div class="space-y-4 animate-on-scroll">
+                        <div class="flex items-center space-x-4 stagger-child">
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <i class="ri-check-line text-primary font-bold"></i>
+                            </div>
+                            <span class="text-lg">Pelatih Profesional Bersertifikat</span>
+                        </div>
+                        <div class="flex items-center space-x-4 stagger-child">
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <i class="ri-check-line text-primary font-bold"></i>
+                            </div>
+                            <span class="text-lg">Alat Fitness Modern & Lengkap</span>
+                        </div>
+                        <div class="flex items-center space-x-4 stagger-child">
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <i class="ri-check-line text-primary font-bold"></i>
+                            </div>
+                            <span class="text-lg">Program Kelas Beragam</span>
+                        </div>
+                        <div class="flex items-center space-x-4 stagger-child">
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <i class="ri-check-line text-primary font-bold"></i>
+                            </div>
+                            <span class="text-lg">Akses 24/7 untuk Member Premium</span>
+                        </div>
+                    </div>
+
+                    <button
+                        class="bg-gradient-secondary text-primary px-8 py-4 rounded-full font-bold text-lg btn-hover shadow-lg">
+                        Book A Class
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Why Choose Us Section -->
+    <section id="about" class="py-20 bg-primary-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 text-animate">Mengapa Tekkom Gym</h2>
+                <p class="text-text-light text-lg max-w-3xl mx-auto leading-relaxed text-animate">
+                    Our diverse membership base creates a friendly and supportive atmosphere,
+                    where you can make friends and stay motivated throughout your fitness journey.
+                </p>
+            </div>
+
+            <!-- Main Content -->
+            <div class="relative">
+                <!-- Background Image Placeholder -->
+                <div
+                    class="w-full h-96 bg-gradient-to-r from-primary-extra-light to-secondary rounded-3xl shadow-2xl mb-8 flex items-center justify-center animate-on-scroll">
+                    <div class="text-center">
+                        <i class="ri-team-fill text-8xl text-white mb-4"></i>
+                        <p class="text-2xl font-bold">Our Community</p>
+                        <p class="text-text-light">Strong Together</p>
+                    </div>
+                </div>
+
+                <!-- Feature Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 -mt-16 relative z-10">
+                    <!-- Personal Trainer -->
+                    <div class="glass-effect rounded-2xl p-6 card-hover animate-on-scroll">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                            <i class="ri-user-fill text-2xl text-primary"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">Personal Trainer</h4>
+                        <p class="text-text-light">
+                            Unlock your potential with dedicated personal trainers who will guide you every step of the
+                            way.
+                        </p>
+                    </div>
+
+                    <!-- Live Classes -->
+                    <div class="glass-effect rounded-2xl p-6 card-hover animate-on-scroll">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                            <i class="ri-vidicon-fill text-2xl text-primary"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">Live Classes</h4>
+                        <p class="text-text-light">
+                            Join our energetic live classes and train together with other motivated members.
+                        </p>
+                    </div>
+
+                    <!-- Premium Facilities -->
+                    <div class="glass-effect rounded-2xl p-6 card-hover animate-on-scroll">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-4">
+                            <i class="ri-building-4-fill text-2xl text-primary"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">Premium Facilities</h4>
+                        <p class="text-text-light">
+                            Experience world-class facilities with modern equipment and comfortable amenities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Header -->
+    <header class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-gradient mb-2">TEKKOM GYM</div>
+                <h1 class="text-4xl lg:text-6xl font-black mb-4">
+                    <span class="text-gradient">WORKOUT</span> FEATURES
+                </h1>
+                <p class="text-text-light text-lg max-w-2xl mx-auto">
+                    Tools lengkap untuk membantu perjalanan fitness Anda. Dari calculator hingga progress tracker.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="sticky top-0 z-40 glass-effect border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center space-x-1 py-4">
+                <button onclick="showTab('calculator')" id="tab-calculator"
+                    class="tab-btn active px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-secondary text-primary">
+                    <i class="ri-calculator-line mr-2"></i>Calculator
+                </button>
+                <button onclick="showTab('exercises')" id="tab-exercises"
+                    class="tab-btn px-6 py-3 rounded-full font-semibold transition-all duration-300 text-text-light">
+                    <i class="ri-book-line mr-2"></i>Exercise Library
+                </button>
+                <button onclick="showTab('planner')" id="tab-planner"
+                    class="tab-btn px-6 py-3 rounded-full font-semibold transition-all duration-300 text-text-light">
+                    <i class="ri-calendar-line mr-2"></i>Workout Planner
+                </button>
+                <button onclick="showTab('tracker')" id="tab-tracker"
+                    class="tab-btn px-6 py-3 rounded-full font-semibold transition-all duration-300 text-text-light">
+                    <i class="ri-line-chart-line mr-2"></i>Progress Tracker
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="py-12">
+        <!-- Calculator Tab -->
+        <div id="calculator-tab" class="tab-content">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- BMI Calculator -->
+                    <div class="glass-effect rounded-2xl p-8 card-hover">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-heart-pulse-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">BMI Calculator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Tinggi Badan (cm)</label>
+                                <input type="number" id="height"
+                                    class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                    placeholder="170">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Berat Badan (kg)</label>
+                                <input type="number" id="weight"
+                                    class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                    placeholder="70">
+                            </div>
+                            <button onclick="calculateBMI()"
+                                class="w-full bg-gradient-secondary text-primary py-3 rounded-lg font-bold btn-hover">
+                                Hitung BMI
+                            </button>
+                            <div id="bmi-result" class="p-4 rounded-lg bg-primary-light border border-gray-600 hidden">
+                                <div class="text-center">
+                                    <div id="bmi-value" class="text-3xl font-bold text-secondary"></div>
+                                    <div id="bmi-category" class="text-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calorie Calculator -->
+                    <div class="glass-effect rounded-2xl p-8 card-hover">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-fire-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Calorie Calculator</h3>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Umur</label>
+                                    <input type="number" id="age"
+                                        class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                        placeholder="25">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Gender</label>
+                                    <select id="gender"
+                                        class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none">
+                                        <option value="male">Pria</option>
+                                        <option value="female">Wanita</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Aktivitas</label>
+                                <select id="activity"
+                                    class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none">
+                                    <option value="1.2">Sedentary (tidak olahraga)</option>
+                                    <option value="1.375">Light (olahraga ringan 1-3x/minggu)</option>
+                                    <option value="1.55">Moderate (olahraga 3-5x/minggu)</option>
+                                    <option value="1.725">Active (olahraga 6-7x/minggu)</option>
+                                    <option value="1.9">Very Active (olahraga 2x/hari)</option>
+                                </select>
+                            </div>
+                            <button onclick="calculateCalories()"
+                                class="w-full bg-gradient-secondary text-primary py-3 rounded-lg font-bold btn-hover">
+                                Hitung Kalori
+                            </button>
+                            <div id="calorie-result"
+                                class="p-4 rounded-lg bg-primary-light border border-gray-600 hidden">
+                                <div class="text-center">
+                                    <div id="calorie-value" class="text-2xl font-bold text-secondary"></div>
+                                    <div class="text-sm text-text-light">kalori per hari</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1RM Calculator -->
+                    <div class="glass-effect rounded-2xl p-8 card-hover">
+                        <div class="bg-gradient-secondary w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-award-line text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">1RM Calculator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Berat (kg)</label>
+                                <input type="number" id="lift-weight"
+                                    class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                    placeholder="100">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Repetisi</label>
+                                <input type="number" id="reps"
+                                    class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                    placeholder="8">
+                            </div>
+                            <button onclick="calculate1RM()"
+                                class="w-full bg-gradient-secondary text-primary py-3 rounded-lg font-bold btn-hover">
+                                Hitung 1RM
+                            </button>
+                            <div id="rm-result" class="p-4 rounded-lg bg-primary-light border border-gray-600 hidden">
+                                <div class="text-center">
+                                    <div id="rm-value" class="text-3xl font-bold text-secondary"></div>
+                                    <div class="text-sm text-text-light">1 Rep Max</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Library Tab -->
+        <div id="exercises-tab" class="tab-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    <!-- Muscle Group Filter -->
+                    <div class="glass-effect rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-4">Filter by Muscle</h3>
+                        <div class="space-y-2">
+                            <button onclick="filterExercises('all')"
+                                class="muscle-filter active w-full text-left py-2 px-4 rounded-lg bg-secondary text-primary transition-colors">
+                                All Muscles
+                            </button>
+                            <button onclick="filterExercises('chest')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Chest
+                            </button>
+                            <button onclick="filterExercises('back')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Back
+                            </button>
+                            <button onclick="filterExercises('shoulders')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Shoulders
+                            </button>
+                            <button onclick="filterExercises('arms')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Arms
+                            </button>
+                            <button onclick="filterExercises('legs')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Legs
+                            </button>
+                            <button onclick="filterExercises('core')"
+                                class="muscle-filter w-full text-left py-2 px-4 rounded-lg hover:bg-primary-extra-light transition-colors">
+                                Core
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Cards -->
+                    <div class="lg:col-span-3">
+                        <div id="exercise-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Exercises will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workout Planner Tab -->
+        <div id="planner-tab" class="tab-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Workout Builder -->
+                    <div class="lg:col-span-2">
+                        <div class="glass-effect rounded-2xl p-8">
+                            <h3 class="text-2xl font-bold mb-6">Build Your Workout</h3>
+                            <div class="space-y-6">
+
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Workout Name</label>
+                                    <input type="text" id="workout-name"
+                                        class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                        placeholder="My Awesome Workout">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Duration (minutes)</label>
+                                        <input type="number" id="workout-duration"
+                                            class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                            placeholder="60">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Difficulty</label>
+                                        <select id="workout-difficulty"
+                                            class="w-full px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none">
+                                            <option value="beginner">Beginner</option>
+                                            <option value="intermediate">Intermediate</option>
+                                            <option value="advanced">Advanced</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Workout Exercises -->
+                                <div>
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h4 class="text-lg font-semibold">Exercises</h4>
+                                        <button onclick="addExerciseToWorkout()"
+                                            class="bg-secondary text-primary px-4 py-2 rounded-lg font-medium btn-hover">
+                                            <i class="ri-add-line mr-1"></i>Add Exercise
+                                        </button>
+                                    </div>
+                                    <div id="workout-exercises" class="space-y-3">
+                                        <!-- Exercises will be added here -->
+                                    </div>
+                                </div>
+
+                                <button onclick="saveWorkout()"
+                                    class="w-full bg-gradient-secondary text-primary py-3 rounded-lg font-bold btn-hover">
+                                    Save Workout Plan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Workouts -->
+                    <div>
+                        <div class="glass-effect rounded-2xl p-6">
+                            <h3 class="text-xl font-bold mb-4">Saved Workouts</h3>
+                            <div id="saved-workouts" class="space-y-4">
+                                <!-- Saved workouts will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Tracker Tab -->
+        <div id="tracker-tab" class="tab-content hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Weight Progress -->
+                    <div class="glass-effect rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6">Weight Progress</h3>
+                        <div class="mb-6">
+                            <div class="flex gap-4 mb-4">
+                                <input type="number" id="current-weight"
+                                    class="flex-1 px-4 py-3 rounded-lg bg-primary-light border border-gray-600 text-white focus:border-secondary focus:outline-none"
+                                    placeholder="Current Weight (kg)">
+                                <button onclick="addWeightEntry()"
+                                    class="bg-secondary text-primary px-6 py-3 rounded-lg font-medium btn-hover">
+                                    Add Entry
+                                </button>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="weight-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Strength Progress -->
+                    <div class="glass-effect rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6">Strength Progress</h3>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center">
+                                <span>Bench Press</span>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="bench-weight"
+                                        class="w-20 px-2 py-1 rounded bg-primary-light border border-gray-600 text-white"
+                                        placeholder="kg">
+                                    <button onclick="updateLift('bench')"
+                                        class="bg-secondary text-primary px-3 py-1 rounded text-sm btn-hover">Update</button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span>Squat</span>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="squat-weight"
+                                        class="w-20 px-2 py-1 rounded bg-primary-light border border-gray-600 text-white"
+                                        placeholder="kg">
+                                    <button onclick="updateLift('squat')"
+                                        class="bg-secondary text-primary px-3 py-1 rounded text-sm btn-hover">Update</button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span>Deadlift</span>
+                                <div class="flex items-center gap-2">
+                                    <input type="number" id="deadlift-weight"
+                                        class="w-20 px-2 py-1 rounded bg-primary-light border border-gray-600 text-white"
+                                        placeholder="kg">
+                                    <button onclick="updateLift('deadlift')"
+                                        class="bg-secondary text-primary px-3 py-1 rounded text-sm btn-hover">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="lift-progress">
+                                <div class="flex justify-between mb-2">
+                                    <span>Bench Press</span>
+                                    <span id="bench-current">0 kg</span>
+                                </div>
+                                <div class="w-full bg-primary-light rounded-full h-3">
+                                    <div id="bench-bar" class="progress-bar bg-secondary h-3 rounded-full"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="lift-progress">
+                                <div class="flex justify-between mb-2">
+                                    <span>Squat</span>
+                                    <span id="squat-current">0 kg</span>
+                                </div>
+                                <div class="w-full bg-primary-light rounded-full h-3">
+                                    <div id="squat-bar" class="progress-bar bg-secondary h-3 rounded-full"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="lift-progress">
+                                <div class="flex justify-between mb-2">
+                                    <span>Deadlift</span>
+                                    <span id="deadlift-current">0 kg</span>
+                                </div>
+                                <div class="w-full bg-primary-light rounded-full h-3">
+                                    <div id="deadlift-bar" class="progress-bar bg-secondary h-3 rounded-full"
+                                        style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workout Stats -->
+                    <div class="glass-effect rounded-2xl p-8 lg:col-span-2">
+                        <h3 class="text-2xl font-bold mb-6">Workout Statistics</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary" id="total-workouts">0</div>
+                                <div class="text-text-light">Total Workouts</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary" id="total-hours">0</div>
+                                <div class="text-text-light">Hours Trained</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary" id="streak-days">0</div>
+                                <div class="text-text-light">Day Streak</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-secondary" id="calories-burned">0</div>
+                                <div class="text-text-light">Calories Burned</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById("height").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+            const resultDiv = document.getElementById("bmi-result");
+            const valueText = document.getElementById("bmi-value");
+            const categoryText = document.getElementById("bmi-category");
+
+            if (height > 0 && weight > 0) {
+                const bmi = weight / ((height / 100) ** 2);
+                valueText.textContent = bmi.toFixed(1);
+
+                let category = "";
+                if (bmi < 18.5) category = "Kurus";
+                else if (bmi < 25) category = "Normal";
+                else if (bmi < 30) category = "Kelebihan Berat Badan";
+                else category = "Obesitas";
+
+                categoryText.textContent = category;
+                resultDiv.classList.remove("hidden");
+            } else {
+                alert("Masukkan tinggi dan berat yang valid.");
+            }
+        }
+
+        function calculateCalories() {
+            const age = parseInt(document.getElementById("age").value);
+            const gender = document.getElementById("gender").value;
+            const activity = parseFloat(document.getElementById("activity").value);
+            const resultDiv = document.getElementById("calorie-result");
+            const valueText = document.getElementById("calorie-value");
+
+            const height = parseFloat(document.getElementById("height").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+
+            if (age && height && weight && activity) {
+                let bmr = 0;
+
+                if (gender === "male") {
+                    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+                } else {
+                    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+                }
+
+                const totalCalories = Math.round(bmr * activity);
+                valueText.textContent = totalCalories + " kcal";
+                resultDiv.classList.remove("hidden");
+            } else {
+                alert("Isi semua data dengan benar untuk menghitung kalori.");
+            }
+        }
+
+        function calculate1RM() {
+            const weight = parseFloat(document.getElementById("lift-weight").value);
+            const reps = parseInt(document.getElementById("reps").value);
+            const resultDiv = document.getElementById("rm-result");
+            const valueText = document.getElementById("rm-value");
+
+            if (weight > 0 && reps > 0 && reps <= 10) {
+                const oneRM = weight * (36 / (37 - reps));
+                valueText.textContent = oneRM.toFixed(1) + " kg";
+                resultDiv.classList.remove("hidden");
+            } else {
+                alert("Masukkan berat dan repetisi (maksimal 10 repetisi) yang valid.");
+            }
+        }
+    </script>
+    </main>
+    <!-- Registration Form Section -->
+    <section id="register" class="py-20 bg-primary-light">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gradient mb-4">Formulir Pendaftaran</h2>
+                <p class="text-text-light text-lg">Isi data di bawah untuk bergabung bersama TEKKOM GYM.</p>
+            </div>
+            <form class="space-y-6 glass-effect p-8 rounded-2xl">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Nama Lengkap</label>
+                    <input type="text" name="name"
+                        class="w-full px-4 py-3 rounded-lg bg-primary-extra-light text-white border border-gray-600 focus:outline-none focus:border-secondary"
+                        placeholder="Masukkan nama anda" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" name="email"
+                        class="w-full px-4 py-3 rounded-lg bg-primary-extra-light text-white border border-gray-600 focus:outline-none focus:border-secondary"
+                        placeholder="contoh@email.com" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Tujuan Fitness</label>
+                    <textarea name="goal" rows="3"
+                        class="w-full px-4 py-3 rounded-lg bg-primary-extra-light text-white border border-gray-600 focus:outline-none focus:border-secondary"
+                        placeholder="Ceritakan tujuan anda bergabung..."></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-secondary text-primary py-3 rounded-full font-bold btn-hover">Daftar
+                    Sekarang</button>
+            </form>
+        </div>
+    </section>
+   <footer class="bg-primary-light text-text-light px-6 py-6 text-sm">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div>
+      <h3 class="text-base font-bold mb-2 text-white">TEKKOM GYM</h3>
+      <p class="leading-snug">Pusat kebugaran terbaik yang mendukung perjalanan transformasi Anda — dari nol hingga luar biasa!</p>
+    </div>
+   <div>
+  <h3 class="text-lg font-bold mb-4 text-white">Navigasi</h3>
+  <ul class="grid grid-cols-2 gap-x-6 gap-y-2">
+    <li><a href="#home" class="hover:text-secondary">Home</a></li>
+    <li><a href="#about" class="hover:text-secondary">About</a></li>
+    <li><a href="#programs" class="hover:text-secondary">Program</a></li>
+    <li><a href="#register" class="hover:text-secondary">Daftar</a></li>
+    <li><a href="#services" class="hover:text-secondary">Service</a></li>
+  </ul>
+</div>
+
+    <div>
+      <h3 class="text-base font-bold mb-2 text-white">Kontak Kami</h3>
+      <p>Email: <a href="mailto:nizaru@gmail.com" class="text-secondary">nizaru@gmail.com</a></p>
+      <p>Telp: <a href="tel:+62123456789" class="text-secondary">+62 123-456-789</a></p>
+      <p>Kebumen</p>
+    </div>
+  </div>
+  <div class="border-t border-gray-600 mt-4 pt-3 text-center text-xs">
+    © 2025 TEKKOM GYM. All rights reserved.
+  </div>
+</footer>
+
+
+</body>
+
+</html>
